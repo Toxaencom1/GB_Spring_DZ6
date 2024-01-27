@@ -15,7 +15,7 @@ public class NoteService {
 
     private final NoteRepository repository;
 
-    public List<Note> getAllTasks() {
+    public List<Note> getAllNotes() {
         return repository.findAll();
     }
 
@@ -23,7 +23,7 @@ public class NoteService {
         return repository.findById(id);
     }
 
-    public Optional<Note> addTask(Note note) {
+    public Optional<Note> addNote(Note note) {
         Optional<Note> optional = Optional.empty();
         boolean checkNote = checkNote(note);
         if (checkNote) {

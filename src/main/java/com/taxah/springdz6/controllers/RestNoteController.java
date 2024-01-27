@@ -17,20 +17,20 @@ public class RestNoteController {
     private final NoteService service;
 
     @GetMapping
-    public ResponseEntity<List<Note>> getAllTasks() {
-        return new ResponseEntity<>(service.getAllTasks(), HttpStatus.OK);
+    public ResponseEntity<List<Note>> getAllNotes() {
+        return new ResponseEntity<>(service.getAllNotes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Note> getTaskById(@PathVariable Long id) {
+    public ResponseEntity<Note> getNoteById(@PathVariable Long id) {
         Optional<Note> noteById = service.getNoteById(id);
         return noteById.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Note> addTask(@RequestBody Note note) {
-        Optional<Note> optional = service.addTask(note);
+    public ResponseEntity<Note> addNote(@RequestBody Note note) {
+        Optional<Note> optional = service.addNote(note);
         return optional.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
@@ -43,10 +43,12 @@ public class RestNoteController {
 */
 
     @PutMapping
-    public ResponseEntity<Note> updateTask(@RequestBody Note note) {
-        Optional<Note> noteById = service.getNoteById(note.getId());
-        if (noteById.isPresent() && checkNote(note)) {
-            return new ResponseEntity<>(service.updateNote(note), HttpStatus.OK);
+    public ResponseEntity<Note> updateNote(@RequestBody Note note) {
+        if (note.getId()!=null && checkNote(note)) {
+            Optional<Note> noteById = service.getNoteById(note.getId());
+            if (noteById.isPresent()) {
+                return new ResponseEntity<>(service.updateNote(note), HttpStatus.OK);
+            }
         }
         return ResponseEntity.badRequest().build();
     }
