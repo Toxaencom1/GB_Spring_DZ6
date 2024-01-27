@@ -30,7 +30,6 @@ public class Note {
     @Column(nullable = false)
     private String description;
     private LocalDateTime localDateTime = LocalDateTime.now();
-
     public Note(String header, String description) {
         this.header = header;
         this.description = description;
